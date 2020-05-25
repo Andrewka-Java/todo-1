@@ -1,0 +1,11 @@
+db.pizza.find({cost: {$gt: 10} {$lt: 12}}).pretty()
+
+$gt - больше
+$gte - больше или равно
+
+$lt - меньшe
+$lte - меньше или равно
+
+//Commands
+db.collection.*
+    .bulkWrite - объеденяет несколько комманд, [массив]

@@ -3,6 +3,7 @@ import {Priority} from '../model/Priority';
 import {Task} from '../model/Task';
 
 export class TestData {
+
   static categories: Category[] = [
     {id: 1, title: 'Work'},
     {id: 2, title: 'Family'},

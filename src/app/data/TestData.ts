@@ -26,7 +26,6 @@ export class TestData {
     {id: 4, title: 'Very important', color: '#F1128D'},
   ];
 
-
   static tasks: Task[] = [
     {
       id: 1,

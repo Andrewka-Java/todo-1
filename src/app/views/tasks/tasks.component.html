@@ -2,26 +2,109 @@
   <div class="card-header card-header-warning">
     <h4 class="card-title">List of tasks</h4>
   </div>
-  <div class="card-body table-responsive">
-    <table class="table table-hover">
-      <thead class="text-warning">
-      <th>ID</th>
-      <th>Name</th>
-      <th>Category</th>
-      <th>Priority</th>
-      <th>Status</th>
-      <th>Date</th>
-      </thead>
-      <tbody>
-      <tr *ngFor="let task of tasks">
-        <td>{{task.id}}</td>
-        <td>{{task.title}}</td>
-        <td>$36,738</td>
-        <td>Niger</td>
-        <td>Niger</td>
-        <td>Niger</td>
-      </tr>
-      </tbody>
+  <div *ngIf="tasks && tasks.length > 0" class="card-body table-responsive">
+
+    <table [dataSource]="dataSource" mat-table matSort>
+
+<!--      Color of priority-->
+      <ng-container matColumnDef="color">
+        <th *matHeaderCellDef mat-header-cell></th>
+        <td class="col-color" *matCellDef="let task" [style.background-color]="getPriorityColor(task)" mat-cell></td>
+      </ng-container>
+
+<!--      Numeric-->
+      <ng-conainer matColumnDef="id">
+        <th *matHeaderCellDef mat-header-cell> Number</th>
+        <td class="col-id" *matCellDef="let index = index;" mat-cell>
+          {{index + 1}}
+        </td>
+      </ng-conainer>
+
+<!--      task's name-->
+      <ng-container matColumnDef="title">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Name</th>
+        <td *matCellDef="let task" [class.completed]="task.completed" class="col-title pointer" mat-cell
+            (click)="openEditTaskDialog(task)">
+          {{task.title}}
+        </td>
+      </ng-container>
+
+<!--      Date of running-->
+      <ng-container matColumnDef="date">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> End of date</th>
+        <td class="col-date" *matCellDef="let task" [ngClass]="{'completed': task.completed, 'novalue': task.date == null}"
+            mat-cell>
+          {{task.date ? (task.date | date: "shortDate") : "Without date"}}
+        </td>
+      </ng-container>
+
+
+<!--      Priority-->
+      <ng-container matColumnDef="priority">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Priority</th>
+        <td class="col-priority" *matCellDef="let task"
+            [ngClass]="{'completed': task.completed, 'novalue': task.priority == null}"
+            mat-cell>
+          {{task.priority ? task.priority.title : "Without priority"}}
+        </td>
+      </ng-container>
+
+<!--      Category-->
+      <ng-container matColumnDef="category">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Category</th>
+        <td class="col-category" *matCellDef="let task"
+            [ngClass]="{'completed': task.completed, 'novalue': task.category == null, 'link': !task.completed && task.category}"
+            mat-cell>
+          {{task.category ? task.category.title : "Without category"}}
+        </td>
+      </ng-container>
+
+<!--      Subject of table-->
+      <tr *matHeaderRowDef="displayedColumns; " mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+
     </table>
+                                                        <!-- Show element for checking first and last page-->
+    <mat-paginator [pageSizeOptions]="[10, 20, 59, 100]" showFirstLastButtons></mat-paginator>
+
   </div>
+
+  <div *ngIf="tasks && tasks.length == 0"><p class="not-found">Nothing found</p></div>
+<!--    <table class="table table-hover">-->
+<!--      <thead class="text-warning">-->
+<!--      <th>#</th>-->
+<!--      <th>Name</th>-->
+<!--      <th>Category</th>-->
+<!--      <th>Priority</th>-->
+<!--      <th>Date</th>-->
+<!--      <th>Status</th>-->
+<!--      </thead>-->
+
+<!--      <tbody>-->
+
+<!--      <tr *ngFor="let task of tasks; let i = index" [class.completed]="task.completed">-->
+<!--        <td>{{i + 1}}</td>-->
+<!--        <td>{{task.title}}</td>-->
+<!--        <td [class.novalue]="task.category == null">{{task.category != null ? task.category.title : "Without category"}}</td>-->
+<!--        <td [class.novalue]="task.category == null">{{task.priority != null ? task.priority.title : "Without priority"}}</td>-->
+<!--        <td [class.novalue]="task.category == null">{{task.date != null ? (task.date | date : "medium") : "Without date"}}</td>-->
+<!--        <td>-->
+<!--          <div>-->
+<!--            <label class="form-check-label">-->
+<!--              <input [checked] = "task.completed" class="form-check-input" type="checkbox" value=""-->
+<!--                (click)="toggledTaskCompleted(task)">-->
+<!--                            <span class="from-check-sign">-->
+<!--                                <span class="check"></span>-->
+<!--                            </span>-->
+<!--            </label>-->
+<!--          </div>-->
+<!--        </td>-->
+
+<!--      </tr>-->
+
+<!--      </tbody>-->
+<!--    </table>-->
+
+<!--  </div>-->
 </div>
+

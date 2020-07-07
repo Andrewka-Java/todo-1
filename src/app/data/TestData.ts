@@ -31,9 +31,9 @@ export class TestData {
       id: 1,
       title: 'Populate a bag of bensin',
       priority: TestData.priorities[2],
-      completed: true,
+      completed: false,
       category: TestData.categories[9],
-      date: new Date(),
+      date: new Date('06/29/2021')
     },
     {
       id: 2,
@@ -41,7 +41,7 @@ export class TestData {
       priority: TestData.priorities[3],
       completed: false,
       category: TestData.categories[5],
-      date: new Date('10/10/2020')
+      date: new Date('06/30/2021')
     },
     {
       id: 3,
@@ -55,7 +55,8 @@ export class TestData {
       title: 'Go to a park with the family',
       priority: TestData.priorities[2],
       completed: false,
-      category: TestData.categories[2]
+      category: TestData.categories[2],
+      date: new Date('06/28/2020')
     },
     {
       id: 5,

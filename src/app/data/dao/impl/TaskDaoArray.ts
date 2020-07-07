@@ -15,12 +15,28 @@ export class TaskDaoArray implements TaskDao {
     return of(TestData.tasks.find(todo => todo.id === id));
   }
 
-  add(T): Observable<Task> {
-    return undefined;
+  add(task: Task): Observable<Task> {
+    if (task.id === null || task.id === 0){
+      task.id = this.getLastIdTask();
+    }
+
+    TestData.tasks.push(task);
+
+    return of(task);
   }
 
+  private getLastIdTask(): number {
+    return Math.max.apply(Math, TestData.tasks.map(task => task.id)) + 1;
+  }
+
+
+
   delete(id: number): Observable<Task> {
-    return undefined;
+
+    const taskTmp = TestData.tasks.find(t => t.id === id);
+    TestData.tasks.splice(TestData.tasks.indexOf(taskTmp), 1);
+
+    return of(taskTmp);
   }
 
   getCompletedCountInCategory(category: Category): Observable<number> {
@@ -47,15 +63,33 @@ export class TaskDaoArray implements TaskDao {
 
     let allTasks = TestData.tasks;
 
+    if (status != null) {
+      allTasks = allTasks.filter(task => task.completed === status);
+    }
+
     if (category != null) {
       allTasks = allTasks.filter(todo => todo.category === category);
+    }
+
+    if (priority != null) {
+      allTasks = allTasks.filter(task => task.priority === priority);
+    }
+
+    if (searchText != null) {
+      allTasks = allTasks.filter(
+        task =>
+          task.title.toUpperCase().includes(searchText.toUpperCase())
+      );
     }
 
     return allTasks;
   }
 
-  update(T): Observable<Task> {
-    return undefined;
+  update(task: Task): Observable<Task> {
+    const taskTmp = TestData.tasks.find(t => t.id === task.id);
+    TestData.tasks.splice(TestData.tasks.indexOf(taskTmp), 1, task);
+
+    return of(task);
   }
 
 }

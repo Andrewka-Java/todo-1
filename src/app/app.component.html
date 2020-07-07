@@ -2,7 +2,12 @@
 
   <app-categories
     (selectCategory)="onSelectCategory($event)"
-      [categories]="categories"></app-categories>
+    (deleteCategory)="onDeleteCategory($event)"
+    (updateCategory)="onUpdateCategory($event)"
+    (addCategory)="onAddCategory($event)"
+
+    [selectedCategory]="selectedCategory"
+    [categories]="categories"></app-categories>
 
   <div class="main-panel">
     <!-- Navbar -->
@@ -75,8 +80,21 @@
       <div class="container-fluid">
            <div class="row">
           <div class="col-12">
-            <app-tasks [tasks]="tasks"
-                        (updateTask)="onUpdateTask($event)"></app-tasks>
+            <app-tasks
+                        (updateTask)="onUpdateTask($event)"
+                        (deleteTask)="onDeleteTask($event)"
+                        (selectCategory)="onSelectCategory($event)"
+                        (addTask)="onAddTask($event)"
+
+                        [selectedCategory]="selectedCategory"
+                        (filterByTitle)="onSearchTasks($event)"
+                        (filterByStatus)="onFilterTaskByStatus($event)"
+                        (filterByPriority)="onFilterTaskByPriority($event)"
+
+                        [tasks]="tasks"
+                        [priorities]="priorities">
+
+            </app-tasks>
           </div>
         </div>
       </div>
